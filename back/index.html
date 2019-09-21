@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/iconfont.css">
     <link rel="stylesheet" href="css/main.css">
-   
+
 </head>
 
 <body>
@@ -71,16 +71,51 @@
         <iframe src="main_count.html" frameborder="0" id="main_frame" name="main_frame" frameborder="0"
             scrolling="auto"></iframe>
     </div>
+    <!-- 模态框 -->
+    <div class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">你确定要退出吗?</h4>
+                </div>
+                <div class="modal-body">
+                    <p id="pResult"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="sure">确定</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="nosure">取消</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
 
     <script src="lib/jquery-1.12.4.min.js"></script>
+    <script src="lib/bootstrap/js/bootstrap.min.js"></script>
     <script src="utils/config.js"></script>
     <script src="utils/user.js"></script>
     <script>
-        $(function(){
-            user.getInfo(function(res){
-                console.log(res);
+        $(function () {
+            user.getInfo(function (res) {
                 $('#userName').html(res.data.nickname);
-                $('#userImg').attr('src',res.data.user_pic);
+                $('#userImg').attr('src', res.data.user_pic);
+            });
+
+            $('#btnLogout').click(function () {
+                $('.modal').modal('show');
+                $("#sure").click(function () {
+                    user.logout(function (res) {
+                        console.log(res);
+                        if (res.code == 200) {
+                            window.location.href = "login.html";
+                        }
+
+                    })
+
+                })
             });
         });
     </script>

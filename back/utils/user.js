@@ -14,5 +14,10 @@ var user = {
         $.get(url.userinfo,function(res){
             callback(res);
         });
+    },
+    logout:function(callback){
+        $.post(url.logout,function(res){
+            callback(res);
+        });
     }
 }
