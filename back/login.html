@@ -10,9 +10,12 @@
     <link rel="stylesheet" href="css/iconfont.css">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
+    <script src="utils/config.js"></script>
+    <script src="utils/user.js"></script>
 </head>
 
 <body>
+    <!-- 模态框 -->
     <div class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -64,13 +67,11 @@
                 $("#pResult").html("用户名和密码不能为空");
                 $(".modal").modal("show");
             } else {
-                $.post("http://localhost:8000/admin/login", {
-                    user_name: userName,
-                    password: passWord
-                }, function (res) {
-                    if(res.code==200){
-                        window.location.href="index.html";
-                    }else {
+                user.login(userName, passWord, function (res) {
+                    console.log(res);
+                    if (res.code == 200) {
+                        window.location.href = "index.html";
+                    } else {
                         $("#pResult").html("用户名或密码错误!");
                         $(".modal").modal("show");
                     }
