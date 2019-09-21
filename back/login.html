@@ -53,13 +53,32 @@
     </div>
 
     <script src="lib/jquery-1.12.4.min.js"></script>
+    <script src="lib/bootstrap/js/bootstrap.min.js"></script>
     <script>
-        $("#btnLogin").click(function(){
-            alert(111);
-        })
-    
+        $("#btnLogin").click(function () {
+            var userName = $("#userName").val();
+            var passWord = $("#password").val();
+            console.log(userName, passWord);
+
+            if (userName === "" || password === "") {
+                $("#pResult").html("用户名和密码不能为空");
+                $(".modal").modal("show");
+            } else {
+                $.post("http://localhost:8000/admin/login", {
+                    user_name: userName,
+                    password: passWord
+                }, function (res) {
+                    if(res.code==200){
+                        window.location.href="index.html";
+                    }else {
+                        $("#pResult").html("用户名或密码错误!");
+                        $(".modal").modal("show");
+                    }
+                });
+            }
+        });
     </script>
-    
+
 
 </body>
 
