@@ -39,7 +39,7 @@
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">文章类别：</label>
                     <div class="col-sm-4">
-                        <select class="form-control">
+                        <select class="form-control" id="acticlelists">
                             <option>1</option>
                             <option>2</option>
                             <option>3</option>
@@ -79,7 +79,22 @@
             </form>
         </div>
     </div>
-
+    <script src="utils/config.js"></script>
+    <script src="utils/category.js"></script>
+    <script src="lib/template-web.js"></script>
+    <script id="tmp" type="text/html">
+        {{each data item}}
+        <option>{{item.id}}:{{item.name}}</option>
+        {{/each}}
+    </script>
+    <script>
+        // 文章类别选择
+        $(function(){
+            category.show(function(res){
+                $("#acticlelists").html(template("tmp",res));
+            });
+        })
+    </script>
 </body>
 
 </html>
