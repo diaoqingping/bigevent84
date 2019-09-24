@@ -10,6 +10,10 @@ var url = {
     show:puburl+'admin/category_search',
     add:puburl+'admin/category_add',
     edit:puburl+'admin/category_edit',
-    del:puburl+'admin/category_delete'
+    del:puburl+'admin/category_delete',
+
+    //文章
+    article_publish:puburl+'admin/article_publish'
+
 
 }

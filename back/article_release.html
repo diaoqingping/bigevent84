@@ -10,11 +10,11 @@
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/iconfont.css">
     <link rel="stylesheet" href="css/main.css">
-    <!-- <link type="text/css" rel="stylesheet" href="js/jedate/css/jedate.css"> -->
+    <link type="text/css" rel="stylesheet" href="lib/jedate/css/jedate.css">
     <script src="lib/jquery-1.12.4.min.js"></script>
-    <!-- <script src="js/jedate/js/jedate.js"></script> -->
-    <!-- <script src="js/tinymce/js/tinymce/tinymce.min.js"></script> -->
-    <!-- <script src="js/tinymce/js/tinymce_setup.js"></script> -->
+    <script src="lib/jedate/js/jedate.js"></script>
+    <script src="lib/tinymce/js/tinymce/tinymce.min.js"></script>
+    <script src="lib/tinymce/js/tinymce/tinymce_setup.js"></script>
 </head>
 
 <body>
@@ -23,11 +23,11 @@
             写文章
         </div>
         <div class="container-fluid common_con">
-            <form class="form-horizontal article_form">
+            <form class="form-horizontal article_form" id="myform">
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">文章标题：</label>
                     <div class="col-sm-10">
-                        <input type="email" class="form-control" id="inputEmail3" placeholder="文章标题">
+                        <input type="text" class="form-control" id="inputEmail3" placeholder="文章标题">
                     </div>
                 </div>
                 <div class="form-group">
@@ -81,10 +81,11 @@
     </div>
     <script src="utils/config.js"></script>
     <script src="utils/category.js"></script>
+    <script src="utils/article.js"></script>
     <script src="lib/template-web.js"></script>
     <script id="tmp" type="text/html">
         {{each data item}}
-        <option>{{item.id}}:{{item.name}}</option>
+        <option>{{item.name}}</option>
         {{/each}}
     </script>
     <script>
@@ -94,6 +95,15 @@
                 $("#acticlelists").html(template("tmp",res));
             });
         })
+
+        //发布文章
+        $(".btn-success").click(function(res){
+            var fd=new FormData("#myform");;
+            article.article_public(fd,function(res){
+                console.log(11111);
+            })
+        })
+
     </script>
 </body>
 

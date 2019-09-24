@@ -161,7 +161,7 @@
                         // console.log(res);
                         if (res.code == 200) {
                             $("#divResult").hide();
-                            $("#addModal").madal("hide");
+                            $("#addModal").modal("hide");
                         } else {
                             $("#divResult").show();
                             $("#divResult").text(res.msg);
@@ -172,7 +172,7 @@
                     // console.log($("#category_id").val());
                     category.edit(id, addname, addslug, function (res) {
                         if (res.code == 200) {
-                            $("#addModal").madal("hide");
+                            $("#addModal").modal("hide");
                         } else {
                             $("#divResult").show();
                             $("#divResult").text(res.msg);
