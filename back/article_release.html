@@ -72,7 +72,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-success">发布</button>
+                        <button id="btnAdd" type="submit" class="btn btn-success">发布</button>
                         <button type="submit" class="btn btn-default">存为草稿</button>
                     </div>
                 </div>
@@ -90,20 +90,22 @@
     </script>
     <script>
         // 文章类别选择
-        $(function(){
-            category.show(function(res){
-                $("#acticlelists").html(template("tmp",res));
+        $(function () {
+            category.show(function (res) {
+                $("#acticlelists").html(template("tmp", res));
             });
-        })
 
-        //发布文章
-        $(".btn-success").click(function(res){
-            var fd=new FormData("#myform");;
-            article.article_public(fd,function(res){
-                console.log(11111);
+            //发布文章
+            $("#btnAdd").click(function () {
+                var fd = new FormData("#myform")[0];
+                fd.append('state','已发布');
+                fd.set('content',tinyMCE.activeEditor.getContent());
+                article.article_public(fd, function (res) {
+                    console.log(res);
+                })
             })
-        })
 
+        })
     </script>
 </body>
 

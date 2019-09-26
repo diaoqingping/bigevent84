@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>文章列表</title>
+  <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/iconfont.css" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link type="text/css" rel="stylesheet" href="lib/jedate/css/jedate.css" />
+  <script src="lib/jquery-1.12.4.min.js"></script>
+  <script src="lib/jedate/js/jedate.js"></script>
+  <script src="lib/tinymce/js/tinymce/tinymce.min.js"></script>
+  <script src="lib/tinymce/js/tinymce/tinymce_setup.js"></script>
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="common_title">
+      文章编辑
+    </div>
+    <div class="container-fluid common_con">
+      <form class="form-horizontal article_form" id="myform">
+        <div class="form-group">
+          <label for="inputEmail3" class="col-sm-2 control-label">文章标题：</label>
+          <div class="col-sm-10">
+            <input type="text" name="title" class="form-control" id="article_title" value="文章标题文字" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputPassword3" class="col-sm-2 control-label">文章封面：</label>
+          <div class="col-sm-10">
+            <img src="images/pic06.jpg" class="article_cover" id="article_cover" />
+            <input type="file" id="exampleInputFile" name="cover" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputEmail3" class="col-sm-2 control-label">文章类别：</label>
+          <div class="col-sm-4">
+            <select class="form-control" name="type" id="article_type"> </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputEmail3" class="col-sm-2 control-label">发布时间：</label>
+          <div class="col-sm-4">
+            <div class="input-group">
+              <input type="text" class="form-control" name="date" value="2019-05-17" id="dateinput" />
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button"
+                  onclick="jeDate('#dateinput',{trigger:false,format: 'YYYY-MM-DD'})"><i
+                    class="iconfont icon-icondate"></i></button>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputEmail3" class="col-sm-2 control-label">文章内容：</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="rich_content" name="content" placeholder="文章内容" value="文章内容" />
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <button type="button" id="btnSave" class="btn btn-success">修改</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <script src="utils/config.js"></script>
+  <script src="utils/article.js"></script>
+  <script src="utils/category.js"></script>
+  <script src="lib/template-web.js"></script>
+  <script id="tmp" type="text/html">
+    {{each data item}}
+    <option value="{{item.id}}">{{item.name}}</option>
+    {{/each}}
+  </script>
+  <script>
+    $(function () {
+      var str = window.location.search.replace('?', '');
+      var obj = formatToObj(str);
+      var id = obj.id;
+      getShow(id);
+
+      // //修改
+      $("#btnSave").click(function () {
+        var fd = new FormData($('#myform')[0]);
+        // todos:对数据进行有效性的判断
+        fd.append('id', id);
+        fd.set('content', tinyMCE.activeEditor.getContent());
+        article.edit(fd, function (res) {
+          if (res.code === 200) {
+            //todos:美化
+            alert('修改成功');
+          } else {
+            alert('修改失败');
+          }
+        });
+      });
+
+      //查询字符串
+      function formatToObj(str) {
+        var obj = {};
+        var arr1 = str.split('&');
+        arr1.forEach(function (item) {
+          var arr2 = item.split('=');
+          obj[arr2[0]] = arr2[1];
+        })
+        return obj;
+      }
+    })
+
+    function getShow(id) {
+      if (isNaN(id)) {
+        alert('id不对');
+      } else {
+        article.article_show({
+          id: id
+        }, function (res) {
+          console.log(res);
+          if (res.code === 200) {
+            //文章类别
+            var type = res.data.type;
+            // console.log(type);
+            category.show(function (res) {
+              // console.log(res);
+              if (res.code === 200) {
+                $("#article_type").html(template('tmp', res));
+                $("#article_type").val(type);
+              }
+            })
+            $('#article_title').val(res.data.title);
+            $('#article_cover').attr('src', res.data.cover);
+            $('#dateinput').val(res.data.date);
+            setTimeout(function () {
+              tinyMCE.activeEditor.setContent(res.data.content);
+            }, 1000);
+          }
+        });
+      }
+    }
+  </script>
+</body>
+
+</html>

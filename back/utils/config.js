@@ -13,7 +13,10 @@ var url = {
     del:puburl+'admin/category_delete',
 
     //文章
-    article_publish:puburl+'admin/article_publish'
+    article_show:puburl+'admin/search',
+    article_publish:puburl+'admin/article_publish',
+    del:puburl+'admin/article_delete',
+    edit:puburl+'admin/article_edit'
 
 
 }
