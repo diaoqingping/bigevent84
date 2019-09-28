@@ -30,7 +30,7 @@ var article = {
             }
         });
     },
-    add:function(fd,callBack){
+    // add:function(fd,callBack){
 
-    }
+    // }
 }
