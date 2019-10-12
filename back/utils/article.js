@@ -5,10 +5,16 @@ var article = {
         })
     },
     article_public: function (fd, callBack) {
-        $.post(url.article_publish, {
-            fd
-        }, function (res) {
-            callBack(res);
+
+        $.ajax({
+            url:url.article_publish,
+            type:'post',
+            data:fd,
+            processData:false,
+            contentType:false,
+            success:function(res){
+                callBack(res);
+            }
         })
     },
     del: function (id, callBack) {
